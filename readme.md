@@ -166,6 +166,10 @@ esptool.py --chip esp32 -p [PORT] -b 921600 --before=default_reset --after=hard_
 
 Where ```[PORT]``` is the name of the serial port associated with gCore on your system.
 
+### Firmware Architecture
+
+![Firmware Architecture](pictures/fw_arch.jpg)
+
 ### Possible Future work
 
 1. Add alarm clock functionality.  Could use the Micro-SD card to store all kinds of alarm sounds.
