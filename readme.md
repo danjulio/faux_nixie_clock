@@ -8,7 +8,7 @@ Firmware is written for the ESP32 running on gCore using the Espressif IDF utili
 ### Operation
 The clock keeps time in a stand-alone fashion but can also access internet time servers to keep itself very accurate.  A rechargeable battery allows the clock to display the time for hours during a power failure.
 
-By default the clock acts as a Wifi Access Point (AP) advertising a SSID of the form ```NixieClock-NNNN``` where NNNN are a set of 4 hexadecimal numbers from the ESP32's MAC address.
+By default the clock acts as a Wifi Access Point (AP) advertising a SSID of the form ```NixieClock-NNNN``` where NNNN are a set of 4 hexadecimal numbers from the ESP32's MAC address.  There is no password but one can be added.
 
 Connect a mobile phone or desktop computer to the SSID and navigate to ```nixie.local``` in a web browser.  The control panel should appear.
 
@@ -20,7 +20,7 @@ Time can be directly set using the ```Time / Date``` control.  The Autoset butto
 
 The ```Timezone``` control configures operation with the internet time servers by setting your timezone and daylight savings.
 
-The ```Wi-Fi / Network``` control can be used to put the clock on a local network so that it can access internet time servers.  It can also be used to set a static IP address if desired but that generally isn't required if mDNS discovery is enabled (allowing access to the control panel using ```nixie.local```.
+The ```Wi-Fi / Network``` control can be used to put the clock on a local network so that it can access internet time servers.  It can also be used to set a static IP address if desired but that generally isn't required if mDNS discovery is enabled (allowing access to the control panel using ```nixie.local```).
 
 ![Wifi control panel](pictures/wifi_control_panel.jpg)
 
@@ -36,7 +36,7 @@ The clock will power down when the internal battery reaches about 3.5V during a 
 ![Faux Nixie Clock Parts](pictures/parts.jpg)
 
 1. [gCore](https://www.tindie.com/products/globoy/gcore-high-end-esp32-graphics-dev-board/?pt=ac_prod_search)
-2. 500-2000 mAh 3.7V Lipo [battery](https://www.sparkfun.com/lithium-ion-battery-1500mah-iec62133-certified.html) with Sparkfun/Adafruit polarity connector (can be either flat pouch cell or 18mm round diameter type)
+2. 500-2000 mAh 3.7V Lipo [battery](https://www.sparkfun.com/lithium-ion-battery-1500mah-iec62133-certified.html) with Sparkfun/Adafruit polarity connector (can be either flat pouch cell or 18mm diameter round type)
 3. USB C [Breakout](https://www.sparkfun.com/sparkfun-usb-c-breakout.html)
 4. Lilypad [Button](https://www.sparkfun.com/lilypad-button-board.html)
 5. 3-pin 0.1" header and 3-pin 0.1" socket
@@ -63,7 +63,7 @@ The OpenSCAD source also allows generating STL for a simple 18mm diameter batter
 ### Assembly
 Load the code into gCore (see ```Loading Firmware``` below).
 
-Solder together the wiring harness connecting the USB Breakout board and Lilypad button to gCore's expansion header as shown below.  I used a header + socket to make this removable but you could just solder the wires to gCore.
+Solder together the wiring harness connecting the USB Breakout board and Lilypad button to gCore's expansion header as shown below.  I used a header + socket to make this removable but you could just solder the wires to gCore.  I also used the heat shrink tubing to secure the wire connections to the header pins.
 
 ![Wiring diagram](pictures/wiring_diagram.jpg)
 
@@ -81,7 +81,7 @@ Mount the battery, USB Breakout and button in the enclosure.
 
 ![Enclosure Assembly](pictures/parts_installed_taped.jpg)
 
-Screw gCore into the enclosure base.
+Plug in both the battery and switch/USB wiring assembly and then screw gCore into the enclosure base using 2 or 4 screws.
 
 ![gCore mounted](pictures/gcore_in_enclosure.jpg)
 
@@ -93,18 +93,22 @@ Then tape the orange gel to the inside face of the bezel using the transparent t
 
 ![Mounting gel](pictures/bezel_taped.jpg)
 
-Finally insert the front plastic shield, then the bezel into the picture frame (I threw away the remaining parts of the picture frame).  Carefully press the enclosure into the picture frame.  It will be tight.
+Finally insert the front plastic shield, then the bezel into the picture frame (I threw away the remaining parts of the picture frame).
 
 ![Bezel in enclosure front](pictures/bezel_mounted.jpg)
+
+Carefully press the enclosure into the picture frame.  It will be tight.
+
+![Assembled unit](pictures/clock_side.jpg)
 
 ### Loading firmware
 Firmware is developed using the Espressif IDF and Enscripten.  Emscripten is used to build a web assembly program containing the control panel code that runs in the web browser.  It communicates with the ESP32 via a websocket.  The firmware may be loaded into gCore multiple ways.
 
-1. Using my gCore Serial Downloader application available [here](https://www.danjuliodesigns.com/products/gcore.html).  Look for the Faux Nixie Clock program.
-2. Using the Espressif [Windows-only] [download tool](https://docs.espressif.com/projects/esp-test-tools/en/latest/esp32/production_stage/tools/flash_download_tool.html). 
+1. Using my Linux/Mac/Windows gCore Serial Downloader application available [here](https://www.danjuliodesigns.com/products/gcore.html).
+2. Using the Espressif [Windows-only] [download tool](https://docs.espressif.com/projects/esp-test-tools/en/latest/esp32/production_stage/tools/flash_download_tool.html) to flash the precompiled binaries found in the ```precompiled``` subdirectory here).
 3. Using the IDF (either building the project or simply using their tool to flash the precompiled binaries found in the ```precompiled``` subdirectory here).
 
-In all cases turn gCore on so that its serial port used for programming can be enumerated by the host computer.
+In all cases turn gCore on first so that its serial port used for programming can be enumerated by the host computer.
 
 #### gCore Serial Downloader
 Select ```Faux Nixie Clock``` and the serial port associated with gCore and click ```Program```.
@@ -167,3 +171,4 @@ Where ```[PORT]``` is the name of the serial port associated with gCore on your 
 1. Add alarm clock functionality.  Could use the Micro-SD card to store all kinds of alarm sounds.
 2. Add I2C light sensor for automatic dimming.
 3. Add support for OTA firmware updates.
+4. Port to a real nixie tube clock!
